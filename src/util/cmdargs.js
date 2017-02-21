@@ -41,7 +41,7 @@ const parseArguments = () => {
         argv.RABBIT_MQ_VHOST);
     argv.ESSENCE_FILE_TYPE = argv.ESSENCE_FILE_TYPE.split(',');
     argv.SIDECAR_FILE_TYPE = argv.SIDECAR_FILE_TYPE.split(',');
-    if (argv.COLLATERAL_FILE_TYPE) {
+    if (argv.COLLATERAL_FILE_TYPE && argv.COLLATERAL_FILE_TYPE.length != undefined) {
         argv.COLLATERAL_FILE_TYPE = argv.COLLATERAL_FILE_TYPE.split(',');
     }
     if (!argv.RETRY_PACKAGE_INTERVAL) {
