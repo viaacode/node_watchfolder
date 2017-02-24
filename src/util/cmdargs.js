@@ -44,6 +44,9 @@ const parseArguments = () => {
     if (argv.COLLATERAL_FILE_TYPE && argv.COLLATERAL_FILE_TYPE.length != undefined) {
         argv.COLLATERAL_FILE_TYPE = argv.COLLATERAL_FILE_TYPE.split(',');
     }
+    else {
+        argv.COLLATERAL_FILE_TYPE = undefined;
+    }
     if (!argv.RETRY_PACKAGE_INTERVAL) {
         argv.RETRY_PACKAGE_INTERVAL = 15000
     }
