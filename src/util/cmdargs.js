@@ -40,7 +40,15 @@ const parseArguments = () => {
         argv.RABBIT_MQ_PORT,
         argv.RABBIT_MQ_VHOST);
     argv.ESSENCE_FILE_TYPE = argv.ESSENCE_FILE_TYPE.split(',');
-    argv.SIDECAR_FILE_TYPE = argv.SIDECAR_FILE_TYPE.split(',');
+
+    // Check if sidecar type exists
+    if (argv.SIDECAR_FILE_TYPE && argv.SIDECAR_FILE_TYPE.length != undefined) {
+        argv.SIDECAR_FILE_TYPE = argv.SIDECAR_FILE_TYPE.split(',');
+    }
+    else {
+        argv.SIDECAR_FILE_TYPE = undefined;
+    }
+    // Check if collateral type exists
     if (argv.COLLATERAL_FILE_TYPE && argv.COLLATERAL_FILE_TYPE.length != undefined) {
         argv.COLLATERAL_FILE_TYPE = argv.COLLATERAL_FILE_TYPE.split(',');
     }

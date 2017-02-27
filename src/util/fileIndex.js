@@ -81,9 +81,14 @@ FileIndex.prototype.is_package_complete = function(key) {
     });
 
     if (this.config['COLLATERAL_FILE_TYPE']) {
-        return has_essence && has_sidecar && has_collateral
+        return has_essence && has_sidecar && has_collateral;
     } else {
-        return has_essence && has_sidecar
+        if (this.config['SIDECAR_FILE_TYPE']) {
+            return has_essence && has_sidecar;
+        }
+        else {
+            return has_essence;
+        }
     }
 };
 
