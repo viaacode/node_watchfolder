@@ -17,7 +17,7 @@ FileIndex.prototype.determine_file_type = function(filepath) {
     const filename = path.basename(filepath);
     if (this.file_recognizer.is_essence(filename)) {
         return "essence";
-    } else if (this.file_recognizer.is_sidecar(filename)){
+    } else if (this.config['COLLATERAL_FILE_TYPE'] && this.file_recognizer.is_sidecar(filename)){
         return "sidecar";
     }
     if (this.config['COLLATERAL_FILE_TYPE']) {

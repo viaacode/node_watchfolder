@@ -3,7 +3,6 @@ const required_arguments = [
     "CP",
     "FLOW_ID",
     "ESSENCE_FILE_TYPE",
-    "SIDECAR_FILE_TYPE",
     "RABBIT_MQ_HOST",
     "RABBIT_MQ_PORT",
     "RABBIT_MQ_VHOST",
