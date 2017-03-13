@@ -58,7 +58,7 @@ Publisher.prototype.createChannel = (conn) => {
 
 Publisher.prototype.ensureExchange = (ch, config) => {
     return new Promise((resolve, reject) => {
-        ch.assertExchange(config.RABBIT_MQ_SUCCESS_QUEUE, config.RABBIT_MQ_TOPIC_TYPE, { durable: true })
+        ch.assertExchange(config.RABBIT_MQ_SUCCESS_EXCHANGE, config.RABBIT_MQ_TOPIC_TYPE, { durable: true })
             .then(() => {
                 resolve(ch);
             })
