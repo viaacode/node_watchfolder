@@ -14,7 +14,7 @@ MessageGenerator.prototype.generate = function (completedPackage, completion_fol
         username: this.config.FTP_USERNAME,
         password: this.config.FTP_PASSWORD,
         timestamp: new Date(),
-        sip_package: completedPackage.files
+        sip_package: JSON.parse(JSON.stringify(completedPackage.files))
     };
 
     result.sip_package.forEach((file) => {
