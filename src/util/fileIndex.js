@@ -135,10 +135,9 @@ FileIndex.prototype.discardPackage = function(key) {
 /** Package is complete **/
 FileIndex.prototype.acceptPackage = function(key) {
     log.info('Package ' + key + ' is complete.');
-    this.sendCompleteMessage(key)
-        .bind(this)
-        .then(() => this.movePackage(key, this.config.PROCESSING_FOLDER_NAME))
-        .then(() => { return this.deleteEntry(key) })
+    this.movePackage(key, this.config.PROCESSING_FOLDER_NAME)
+        .then( () => { return this.sendCompleteMessage(key) })
+        .then( () => { return this.deleteEntry(key) })
         .catch(error => {
             this.packages[key].failed = true;
             log.error(error + ' - Keeping package in memory');

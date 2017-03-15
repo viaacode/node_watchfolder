@@ -1,7 +1,7 @@
 const Promise = require("bluebird");
 const log = require("../services/logger.service");
 const Buffer = require("buffer").Buffer;
-const amqp = require('amqplib');
+const amqp = Promise.promisifyAll(require('amqplib'));
 
 function Publisher(config) {
     this.config = config;
@@ -9,38 +9,32 @@ function Publisher(config) {
 }
 
 Publisher.prototype.publishMessage = function(msg, id) {
-    return new Promise((resolve, reject) => {
-        let conn =  amqp.connect(this.config.broker);
-        conn.then((conn) => {
-            this.createChannel(conn)
-                .bind(this)
-                .then((ch) => {
-                    return this.ensureExchange(ch, this.config)
-                })
-                .then( (ch) => {
-                    return this.ensureQueue(ch, this.config)
-                })
-                .then( (ch) => {
-                    return this.bindQueue(ch, this.config)
-                })
-                .then( (ch) => {
-                    return this.transmitMessage(ch, msg, id, this.config)
-                })
-                .then( (ch) => {
-                    return this.closeChannel(ch, this.config)
-                })
-                .then( (ch) => {
-                    resolve();
-                })
-                .finally(function() {
-                    try {
-                        conn.close();
-                    } catch (err) {
-                        log.error(err);
-                    }
-                    reject('There was a problem publishing the message.');
-                });
-        });
+    let conn =  amqp.connect(this.config.broker);
+    return conn.then((conn) => {
+        this.createChannel(conn)
+            .bind(this)
+            .then((ch) => {
+                return this.ensureExchange(ch, this.config)
+            })
+            .then( (ch) => {
+                return this.ensureQueue(ch, this.config)
+            })
+            .then( (ch) => {
+                return this.bindQueue(ch, this.config)
+            })
+            .then( (ch) => {
+                return this.transmitMessage(ch, msg, id, this.config)
+            })
+            .then( (ch) => {
+                return this.closeChannel(ch, this.config)
+            })
+            .finally(function() {
+                try {
+                    conn.close();
+                } catch (err) {
+                    log.error(err);
+                }
+            });
     });
 };
 
