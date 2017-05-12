@@ -76,7 +76,7 @@ Publisher.prototype.ensureQueue = (ch, config) => {
 
 Publisher.prototype.bindQueue = (ch, config) => {
     return new Promise((resolve, reject) => {
-        ch.bindQueue(config.RABBIT_MQ_SUCCESS_QUEUE, config.RABBIT_MQ_SUCCESS_QUEUE, config.FLOW_ID)
+        ch.bindQueue(config.RABBIT_MQ_SUCCESS_QUEUE, config.RABBIT_MQ_SUCCESS_EXCHANGE, config.FLOW_ID)
             .then(() => {
                 resolve(ch);
             })
