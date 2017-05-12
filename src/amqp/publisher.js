@@ -90,7 +90,7 @@ Publisher.prototype.transmitMessage = (ch, msg, id, config) => {
     return new Promise((resolve, reject) => {
         try {
             log.success('Successfully published message for package ' + id);
-            ch.publish(config.RABBIT_MQ_SUCCESS_QUEUE, config.FLOW_ID, new Buffer(msg), { persistent: true });
+            ch.publish(config.RABBIT_MQ_SUCCESS_EXCHANGE, config.FLOW_ID, new Buffer(msg), { persistent: true });
             resolve(ch);
         }
         catch (err) {
