@@ -28,9 +28,8 @@ chokidar.watch(options.folder,
         useFsEvents: true
     })
     .on('add', (path) => {
-        log.info('RECEIVED EVENT FOR FILE', path);
         fileindex.add_file(path, fileindex.determine_file_type(path, options), options, publisher, generator);
     })
-    .on('raw', (event, path, details) => {
-        console.log('Raw event info:', event, path, details);
+    .on('all', (event, path) => {
+        console.log('ALL: ', event, ' - ', path);
     });
