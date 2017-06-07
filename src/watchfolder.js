@@ -20,11 +20,17 @@ chokidar.watch(options.folder,
         },
         awaitWriteFinish: {
             stabilityThreshold: 2000,
-            pollInterval: 100
+            pollInterval: 500
         },
-        usePolling: true
+        usePolling: true,
+        interval: 500,
+        binaryInterval: 500,
+        useFsEvents: true
     })
     .on('add', (path) => {
         log.info('RECEIVED EVENT FOR FILE', path);
         fileindex.add_file(path, fileindex.determine_file_type(path, options), options, publisher, generator);
+    })
+    .on('raw', (path) => {
+        log.info('RAW: ', path);
     });

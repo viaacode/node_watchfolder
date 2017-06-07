@@ -29,6 +29,7 @@ FileIndex.prototype.determine_file_type = function(filepath) {
 };
 
 FileIndex.prototype.add_file = function (filepath, file_type) {
+    log.info('Starting with add_file');
     return new Promise((resolve, reject) => {
         const filename = path.basename(filepath);
         const currentTime = new Date();
@@ -68,6 +69,7 @@ FileIndex.prototype.add_file = function (filepath, file_type) {
             log.info('Refused file for package handling: ' + filename);
             this.refuseFile(filepath);
         }
+        log.info('Finished with add_file');
         resolve();
     });
 };
