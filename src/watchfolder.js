@@ -27,6 +27,7 @@ const startWatching = () => {
                 usePolling: true
             })
             .on('add', (path) => {
+                log.debug('RECEIVED EVENT FOR FILE', path);
                 fileindex.add_file(path, fileindex.determine_file_type(path, options), options, publisher, generator);
             });
             resolve();
