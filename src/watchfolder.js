@@ -11,31 +11,20 @@ const generator = new Generator(options);
 const publisher = new Publisher(options);
 const fileindex = new FileIndex(options, new FileRecognizer(options), publisher, generator);
 
-const startWatching = () => {
-    return new Promise((resolve, reject) => {
-        log.success('Watching folder: ' + options.folder);
-        chokidar.watch(options.folder,
-            {
-                ignored: (path) => {
-                    // Ignore sub-folders
-                    return RegExp(options.folder + '.+/').test(path)
-                },
-                awaitWriteFinish: {
-                    stabilityThreshold: 2000,
-                    pollInterval: 100
-                },
-                usePolling: true
-            })
-            .on('add', (path) => {
-                log.info('RECEIVED EVENT FOR FILE', path);
-                fileindex.add_file(path, fileindex.determine_file_type(path, options), options, publisher, generator);
-            });
-            resolve();
-    });
-};
-
-startWatching()
-    .catch( (err) => {
-        log.error(err);
-        process.exit(1);
+log.success('Watching folder: ' + options.folder);
+chokidar.watch(options.folder,
+    {
+        ignored: (path) => {
+            // Ignore sub-folders
+            return RegExp(options.folder + '.+/').test(path)
+        },
+        awaitWriteFinish: {
+            stabilityThreshold: 2000,
+            pollInterval: 100
+        },
+        usePolling: true
+    })
+    .on('add', (path) => {
+        log.info('RECEIVED EVENT FOR FILE', path);
+        fileindex.add_file(path, fileindex.determine_file_type(path, options), options, publisher, generator);
     });
