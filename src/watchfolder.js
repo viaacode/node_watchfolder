@@ -31,6 +31,6 @@ chokidar.watch(options.folder,
         log.info('RECEIVED EVENT FOR FILE', path);
         fileindex.add_file(path, fileindex.determine_file_type(path, options), options, publisher, generator);
     })
-    .on('raw', (path) => {
-        log.info('RAW: ', path);
+    .on('raw', (event, path, details) => {
+        console.log('Raw event info:', event, path, details);
     });
