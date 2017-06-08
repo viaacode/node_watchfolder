@@ -92,9 +92,11 @@ DOCKER stuff:
 
 ## build the docker file and push to openshift docker repo
 ADD TO PROJECT from image in web console
-#### add and edit the watcher templatefile to your need and add to origin e.g. oc create -f watcher  , add to origin project
 ## set the ENV in origin BUILDCONFIG :
 oc set env dc/watcher FTP_USERNAME=moo
+
 oc set env dc/watcher FTP_SERVER=larry.ftp
 
 etc ...
+-- add and edit the watcher templatefile to your need and add to origin e.g. oc create -f watcher  , add to origin project
+## TODO : Storage documentation NFS
