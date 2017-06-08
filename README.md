@@ -75,3 +75,8 @@ Argument                        |Description                                    
 | INCOMPLETE_FOLDER_NAME        |Folder to move incomplete packages to                                  | True          | None|
 | REFUSED_FOLDER_NAME           |Folder to move refused files to                                        | True          | None|
 | FOLDER_TO_WATCH               |Folder to watch for files                                              | True          | None|
+
+
+
+build the docker file and push to openshift docker repo
+add and edit the watcher templatefile to your need and add to origin e.g. oc create -f watcher  , add to origin project
