@@ -92,7 +92,7 @@ DOCKER stuff:
 
 ## build the docker file and push to openshift docker repo
 ADD TO PROJECT from image in web console
-## set the ENV in origin BUILDCONFIG :
+## set the ENV in origin DeploymentConfig (dc) :
 oc set env dc/watcher FTP_USERNAME=moo
 
 oc set env dc/watcher FTP_SERVER=larry.ftp
