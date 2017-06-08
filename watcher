@@ -1,0 +1,97 @@
+apiVersion: v1
+kind: Template
+metadata:
+  creationTimestamp: null
+  name: watcher
+objects:
+- apiVersion: v1
+  kind: Pod
+  metadata:
+    annotations:
+      kubernetes.io/created-by: |
+        {"kind":"SerializedReference","apiVersion":"v1","reference":{"kind":"ReplicationController","namespace":"test","name":"watcher-5","uid":"a158cac2-4c5d-11e7-bc32-005056a0b39b","apiVersion":"v1","resourceVersion":"1751295"}}
+      openshift.io/deployment-config.latest-version: "5"
+      openshift.io/deployment-config.name: watcher
+      openshift.io/deployment.name: watcher-5
+      openshift.io/generated-by: OpenShiftWebConsole
+      openshift.io/scc: restricted
+    creationTimestamp: null
+    generateName: watcher-5-
+    labels:
+      app: watcher
+      deployment: watcher-5
+      deploymentconfig: watcher
+  spec:
+    containers:
+    - image: 172.30.130.49:5000/test/watcher@sha256:7d5cf9cd5f9b9a4cfdfd6c6d83291f09978f106b77347cdd784a51e9a3bb125d
+      imagePullPolicy: Always
+      name: watcher
+      resources: {}
+      securityContext:
+        capabilities:
+          drop:
+          - KILL
+          - MKNOD
+          - SETGID
+          - SETUID
+          - SYS_CHROOT
+        privileged: false
+        runAsUser: 1000060000
+        seLinuxOptions:
+          level: s0:c8,c2
+      terminationMessagePath: /dev/termination-log
+      volumeMounts:
+      - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+        name: default-token-18xom
+        readOnly: true
+    dnsPolicy: ClusterFirst
+    imagePullSecrets:
+    - name: default-dockercfg-wh8an
+    nodeName: do-qas-ori-01.do.viaa.be
+    restartPolicy: Always
+    securityContext:
+      fsGroup: 1000060000
+      seLinuxOptions:
+        level: s0:c8,c2
+    serviceAccount: default
+    serviceAccountName: default
+    terminationGracePeriodSeconds: 30
+    volumes:
+    - name: default-token-18xom
+      secret:
+        defaultMode: 420
+        secretName: default-token-18xom
+  status:
+    phase: Pending
+parameters:
+  - name: CP
+    displayName: cp
+    description: the cp
+    value: viaa
+    required: true 
+  - name: FOLDER_TO_WATCH
+    description: the folder to watch
+    generate: expression 
+    from: "[a-zA-Z0-9]{40}" 
+  - name: NR_OF_COLLETERALS
+    description: Number of colleterals
+    value: "0"
+    required: true
+  - name: FLOW_ID
+    description: FLOW_ID
+    value: "FLOW_ID"
+    required: true
+  - name: ESSENCE_FILE_TYPE
+    description: ESSENCE_FILE_TYPE
+    value: ".mxf"
+    required: true
+  - name: SIDECAR_FILE_TYPE
+    description: SIDECAR_FILE_TYPE
+    value: ".xml"
+    required: true
+  - name: COLLATERAL_FILE_TYPE
+    description: COLLATERAL_FILE_TYPE
+    value: ".srt"
+    required: true
+  
+message: "... The cp is ${CP} ..." 
