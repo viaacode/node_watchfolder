@@ -30,6 +30,3 @@ chokidar.watch(options.folder,
     .on('add', (path) => {
         fileindex.add_file(path, fileindex.determine_file_type(path, options), options, publisher, generator);
     })
-    .on('all', (event, path) => {
-        console.log('ALL: ', event, ' - ', path);
-    });
