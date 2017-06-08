@@ -44,10 +44,22 @@ ENV INCOMPLETE_FOLDER_NAME=incomplete
 ENV REFUSED_FOLDER_NAME=refused
 ENV FOLDER_TO_WATCH=/export/home/viaa/incoming/temp
 
+
+RUN mkdir -p /home/ftphaven && \
+    echo "ftphaven:x:1002:1002:ftphaven,,,:/home/ftphaven:/bin/bash" >> /etc/passwd && \
+    echo "ftphaven:x:1001:" >> /etc/group && \
+    echo "ftphaven ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ftphaven && \
+    chmod 0440 /etc/sudoers.d/ftphaven && \
+    chown ftphaven:ftphaven -R /home/ftphaven && \
+    chown root:root /usr/bin/sudo && chmod 4755 /usr/bin/sudo
+
+#USER ftphaven
+ENV HOME /home/ftphaven
+
 RUN adduser node root
 RUN chmod -R 775 /usr/src/app
 RUN chown -R node:root /usr/src/app
-USER 1000
+USER 1002
 
 #EXPOSE 8080
 CMD [ "/bin/bash", "start.sh"]
