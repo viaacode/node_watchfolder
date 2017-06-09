@@ -18,15 +18,10 @@ chokidar.watch(options.folder,
             // Ignore sub-folders
             return RegExp(options.folder + '.+/').test(path)
         },
-        awaitWriteFinish: {
-            stabilityThreshold: 2000,
-            pollInterval: 500
-        },
-        usePolling: true,
-        interval: 500,
-        binaryInterval: 500,
-        useFsEvents: true
+        usePolling: false,
+        alwaysStat: false,
+        awaitWriteFinish: true
     })
     .on('add', (path) => {
         fileindex.add_file(path, fileindex.determine_file_type(path, options), options, publisher, generator);
-    })
+    });
