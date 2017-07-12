@@ -29,6 +29,7 @@ FileIndex.prototype.determine_file_type = function(filepath) {
 };
 
 FileIndex.prototype.add_file = function (filepath, file_type) {
+    log.info('Starting with add_file');
     return new Promise((resolve, reject) => {
         const filename = path.basename(filepath);
         const currentTime = new Date();
@@ -68,6 +69,7 @@ FileIndex.prototype.add_file = function (filepath, file_type) {
             log.info('Refused file for package handling: ' + filename);
             this.refuseFile(filepath);
         }
+        log.info('Finished with add_file');
         resolve();
     });
 };
@@ -76,15 +78,19 @@ FileIndex.prototype.is_package_complete = function(key) {
     let has_essence = false;
     let has_sidecar = false;
     let has_collateral = false;
+    let nr_of_collaterals = 0;
 
     this.packages[key].files.forEach((file) => {
         if (file.file_type == 'essence') has_essence = true;
         if (file.file_type == 'sidecar') has_sidecar = true;
-        if (file.file_type == 'collateral') has_collateral = true;
+        if (file.file_type == 'collateral') {
+            has_collateral = true;
+            nr_of_collaterals++;
+        }
     });
 
     if (this.config['COLLATERAL_FILE_TYPE']) {
-        return has_essence && has_sidecar && has_collateral;
+        return has_essence && has_sidecar && has_collateral && nr_of_collaterals === this.config['NR_OF_COLLATERALS'];
     } else {
         if (this.config['SIDECAR_FILE_TYPE']) {
             return has_essence && has_sidecar;

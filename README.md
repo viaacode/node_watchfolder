@@ -75,3 +75,28 @@ Argument                        |Description                                    
 | INCOMPLETE_FOLDER_NAME        |Folder to move incomplete packages to                                  | True          | None|
 | REFUSED_FOLDER_NAME           |Folder to move refused files to                                        | True          | None|
 | FOLDER_TO_WATCH               |Folder to watch for files                                              | True          | None|
+
+
+DOCKER stuff:
+    nano Dockerfile 
+    docker build -t watcher:latest .
+    nano Dockerfile 
+    docker build -t watcher:latest .
+    docker run -ti --rm watcher:latest /bin/bash
+    sudo docker tag watcher docker-registry-default.apps.do-qas-ori-01.do.viaa.be/test/watcher:latest
+    sudo docker push docker-registry-default.apps.do-qas-ori-01.do.viaa.be/test/watcher
+    nano Dockerfile 
+    docker build -t watcher:latest .
+    sudo docker tag watcher docker-registry-default.apps.do-qas-ori-01.do.viaa.be/test/watcher:latest
+    sudo docker push docker-registry-default.apps.do-qas-ori-01.do.viaa.be/test/watcher
+
+## build the docker file and push to openshift docker repo
+ADD TO PROJECT from image in web console
+## set the ENV in origin DeploymentConfig (dc) :
+oc set env dc/watcher FTP_USERNAME=moo
+
+oc set env dc/watcher FTP_SERVER=larry.ftp
+
+etc ...
+-- add and edit the watcher templatefile to your need and add to origin e.g. oc create -f watcher  , add to origin project
+## TODO : Storage documentation NFS
