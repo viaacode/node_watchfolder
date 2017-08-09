@@ -15,7 +15,7 @@ function FileIndex (config, filerecognizer, publisher, generator) {
 
 FileIndex.prototype.determine_file_type = function(filepath) {
     const filename = path.basename(filepath);
-    if (this.file_recognizer.is_essence(filename)) {
+    if (this.config['ESSENCE_FILE_TYPE'] && this.file_recognizer.is_essence(filename)) {
         return "essence";
     } else if (this.config['SIDECAR_FILE_TYPE'] && this.file_recognizer.is_sidecar(filename)){
         return "sidecar";
@@ -93,7 +93,11 @@ FileIndex.prototype.is_package_complete = function(key) {
         return has_essence && has_sidecar && has_collateral && nr_of_collaterals === this.config['NR_OF_COLLATERALS'];
     } else {
         if (this.config['SIDECAR_FILE_TYPE']) {
-            return has_essence && has_sidecar;
+            if (this.config['ESSENCE_FILE_TYPE']) {
+                return has_essence && has_sidecar;
+            } else {
+                return has_sidecar;
+            }
         }
         else {
             return has_essence;
