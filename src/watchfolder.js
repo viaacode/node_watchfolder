@@ -6,21 +6,22 @@ const FileRecognizer = require("./util/fileRecognizer");
 const options = require("./util/cmdargs").parseArguments();
 const Publisher = require("./amqp/publisher");
 const Generator = require("./util/messageGenerator");
-const fs = require("fs");
+const path = require('path');
 
 const generator = new Generator(options);
 const publisher = new Publisher(options);
 const fileindex = new FileIndex(options, new FileRecognizer(options), publisher, generator);
 
+// Make sure the folder to watch exists with the correct permissions (parent folder)
+let parentFolderStat = FileUtils.getPermissions(path.dirname(options.folder));
+FileUtils.createDirectory(options.folder, parentFolderStat.uid, parentFolderStat.gid, parentFolderStat.mode);
 
-let parentFolderStat = fs.statSync(options.folder);
-let uid = parentFolderStat.uid;
-let gid = parentFolderStat.gid;
-let mode = parentFolderStat.mode;
+parentFolderStat = FileUtils.getPermissions(options.folder);
 
-FileUtils.createDirectory(FileUtils.createFullPath(options.folder, options.PROCESSING_FOLDER_NAME), uid, gid, mode);
-FileUtils.createDirectory(FileUtils.createFullPath(options.folder, options.INCOMPLETE_FOLDER_NAME), uid, gid, mode);
-FileUtils.createDirectory(FileUtils.createFullPath(options.folder, options.REFUSED_FOLDER_NAME), uid, gid, mode);
+// Create the PROCESSING, INCOMPLETE and REFUSED folders
+FileUtils.createDirectory(FileUtils.createFullPath(options.folder, options.PROCESSING_FOLDER_NAME), parentFolderStat.uid, parentFolderStat.gid, parentFolderStat.mode);
+FileUtils.createDirectory(FileUtils.createFullPath(options.folder, options.INCOMPLETE_FOLDER_NAME), parentFolderStat.uid, parentFolderStat.gid, parentFolderStat.mode);
+FileUtils.createDirectory(FileUtils.createFullPath(options.folder, options.REFUSED_FOLDER_NAME), parentFolderStat.uid, parentFolderStat.gid, parentFolderStat.mode);
 
 chokidar.watch(
     options.folder,

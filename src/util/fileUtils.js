@@ -23,6 +23,10 @@ const moveFile = (sourcePath, destinationPath, cb) => {
     mv(sourcePath, destinationPath, {mkdirp: false}, cb);
 };
 
+const getPermissions = (path) => {
+    return fs.statSync(path);
+};
+
 const createDirectory = (path, uid, gid, mode) => {
     var oldmask = process.umask(0);
     if(!fs.existsSync(path)){
@@ -46,5 +50,6 @@ module.exports = {
     createFullPath: createFullPath,
     getFileName: getFileName,
     getFolder: getFolder,
-    createDirectory: createDirectory
+    createDirectory: createDirectory,
+    getPermissions: getPermissions
 };
