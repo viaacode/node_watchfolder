@@ -2,9 +2,9 @@
 nodemon src/watchfolder.js \
 	--CP VRT \
 	--FLOW_ID VRT.VIDEO.1 \
-	--ESSENCE_FILE_TYPE .mxf,.txt \
+	--ESSENCE_FILE_TYPE \
 	--SIDECAR_FILE_TYPE .xml \
-	--COLLATERAL_FILE_TYPE .xif,.srt \
+	--COLLATERAL_FILE_TYPE \
 	--NR_OF_COLLATERALS 2 \
 	--RABBIT_MQ_HOST localhost \
 	--RABBIT_MQ_PORT 5672 \
