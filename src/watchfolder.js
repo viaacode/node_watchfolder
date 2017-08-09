@@ -7,16 +7,23 @@ const options = require("./util/cmdargs").parseArguments();
 const Publisher = require("./amqp/publisher");
 const Generator = require("./util/messageGenerator");
 const fs = require("fs");
+const path = require('path');
 
 const generator = new Generator(options);
 const publisher = new Publisher(options);
 const fileindex = new FileIndex(options, new FileRecognizer(options), publisher, generator);
 
-
-let parentFolderStat = fs.statSync(options.folder);
+// Make sure the folder to watch exists with the correct permissions (parent folder)
+let parentFolderStat = fs.statSync(path.dirname(options.folder));
 let uid = parentFolderStat.uid;
 let gid = parentFolderStat.gid;
 let mode = parentFolderStat.mode;
+FileUtils.createDirectory(options.folder, uid, gid, mode);
+
+parentFolderStat = fs.statSync(options.folder);
+uid = parentFolderStat.uid;
+gid = parentFolderStat.gid;
+mode = parentFolderStat.mode;
 
 FileUtils.createDirectory(FileUtils.createFullPath(options.folder, options.PROCESSING_FOLDER_NAME), uid, gid, mode);
 FileUtils.createDirectory(FileUtils.createFullPath(options.folder, options.INCOMPLETE_FOLDER_NAME), uid, gid, mode);
