@@ -87,20 +87,17 @@ FileIndex.prototype.is_package_complete = function(key) {
         }
     });
 
-    if (this.config['COLLATERAL_FILE_TYPE']) {
-        return has_essence && has_sidecar && has_collateral && nr_of_collaterals === this.config['NR_OF_COLLATERALS'];
-    } else {
-        if (this.config['SIDECAR_FILE_TYPE']) {
-            if (this.config['ESSENCE_FILE_TYPE']) {
-                return has_essence && has_sidecar;
-            } else {
-                return has_sidecar;
-            }
-        }
-        else {
-            return has_essence;
-        }
+    let complete = true;
+    if (this.config['ESSENCE_FILE_TYPE']) {
+        complete &= has_essence;
     }
+    if (this.config['COLLATERAL_FILE_TYPE']) {
+        complete &= has_collateral && nr_of_collaterals === this.config['NR_OF_COLLATERALS'];
+    }
+    if (this.config['SIDECAR_FILE_TYPE']) {
+        complete &= has_sidecar;
+    }
+    return complete;
 };
 
 FileIndex.prototype.check_expired_packages = function() {
