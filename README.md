@@ -57,7 +57,7 @@ Argument                        |Description                                    
 | ESSENCE_FILE_TYPE             |File types that are recognized as essence, separated with a `,`        | True          | None|
 | SIDECAR_FILE_TYPE             |File types that are recognized as sidecar, separated with a `,`        | False         | None|
 | COLLATERAL_FILE_TYPE          |File types that are recognized as collateral, separated with a `,`     | False         | None|
-| NR_OF_COLLATERALS		|Number of collateral files (required when COLLATERAL_FILE_TYPE)	| False		| None|
+| NR_OF_COLLATERALS             |Number of collateral files (required when COLLATERAL_FILE_TYPE)        | False	        | None|
 | RABBIT_MQ_HOST                |AMQP host to connect to                                                | True          | None|
 | RABBIT_MQ_PORT                |AMQP port to connect to                                                | True          | None|
 | RABBIT_MQ_VHOST               |AMQP virtual host to connect to                                        | True          | None|
