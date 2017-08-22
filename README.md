@@ -80,18 +80,12 @@ Argument                        |Description                                    
 | FOLDER_TO_WATCH               |Folder to watch for files                                              | True          | None|
 
 
-DOCKER stuff:
-    nano Dockerfile 
-    docker build -t watcher:latest .
-    nano Dockerfile 
-    docker build -t watcher:latest .
-    docker run -ti --rm watcher:latest /bin/bash
-    sudo docker tag watcher docker-registry-default.apps.do-qas-ori-01.do.viaa.be/test/watcher:latest
-    sudo docker push docker-registry-default.apps.do-qas-ori-01.do.viaa.be/test/watcher
-    nano Dockerfile 
+## Docker stuff:
+```
     docker build -t watcher:latest .
     sudo docker tag watcher docker-registry-default.apps.do-qas-ori-01.do.viaa.be/test/watcher:latest
     sudo docker push docker-registry-default.apps.do-qas-ori-01.do.viaa.be/test/watcher
+```
 
 ## build the docker file and push to openshift docker repo
 ADD TO PROJECT from image in web console
