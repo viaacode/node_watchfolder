@@ -49,7 +49,7 @@ node src/watchfolder.js \
 
 ```
 
-####Arguments
+#### Arguments
 Argument                        |Description                                                            |Required       |Default
 |:---                           |:---                                                                   |:---           |:---
 | CP                            |Can be filled in freely. Will be part of the message                   | True          | None|
