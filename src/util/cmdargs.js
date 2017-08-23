@@ -38,7 +38,15 @@ const parseArguments = () => {
         argv.RABBIT_MQ_HOST,
         argv.RABBIT_MQ_PORT,
         argv.RABBIT_MQ_VHOST);
-    argv.ESSENCE_FILE_TYPE = argv.ESSENCE_FILE_TYPE.split(',');
+
+    // Check if essence type exists
+    if (argv.ESSENCE_FILE_TYPE && argv.ESSENCE_FILE_TYPE.length != undefined) {
+        argv.ESSENCE_FILE_TYPE = argv.ESSENCE_FILE_TYPE.split(',');
+    }
+    else {
+        argv.ESSENCE_FILE_TYPE = undefined;
+    }
+    //argv.ESSENCE_FILE_TYPE = argv.ESSENCE_FILE_TYPE.split(',');
 
     // Check if sidecar type exists
     if (argv.SIDECAR_FILE_TYPE && argv.SIDECAR_FILE_TYPE.length != undefined) {
