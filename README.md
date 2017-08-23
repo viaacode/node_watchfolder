@@ -1,7 +1,7 @@
 # NodeJS watchfolder
 Watches directories for packages and publishes messages when complete.
 
-A package consists of 2 or 3 files, depending on the configuration. This service will monitor a folder for files and match these based on their name and extension.
+A package can consist of as many files as you want, depending on the configuration. This service will monitor a folder for files and match these based on their name and extension.
 
 ####Example:
 A complete package might be:
@@ -9,6 +9,8 @@ A complete package might be:
   - somefile.mxf
 - Configured with only essence and sidecar
   - somefile.mxf
+  - somefile.xml
+- Configured with only sidecar
   - somefile.xml
 - Configured with essence, sidecar and collateral
   - somefile.mxf
@@ -47,7 +49,7 @@ node src/watchfolder.js \
 
 ```
 
-####Arguments
+#### Arguments
 Argument                        |Description                                                            |Required       |Default
 |:---                           |:---                                                                   |:---           |:---
 | CP                            |Can be filled in freely. Will be part of the message                   | True          | None|
@@ -55,6 +57,7 @@ Argument                        |Description                                    
 | ESSENCE_FILE_TYPE             |File types that are recognized as essence, separated with a `,`        | True          | None|
 | SIDECAR_FILE_TYPE             |File types that are recognized as sidecar, separated with a `,`        | False         | None|
 | COLLATERAL_FILE_TYPE          |File types that are recognized as collateral, separated with a `,`     | False         | None|
+| NR_OF_COLLATERALS             |Number of collateral files (required when COLLATERAL_FILE_TYPE)        | False	        | None|
 | RABBIT_MQ_HOST                |AMQP host to connect to                                                | True          | None|
 | RABBIT_MQ_PORT                |AMQP port to connect to                                                | True          | None|
 | RABBIT_MQ_VHOST               |AMQP virtual host to connect to                                        | True          | None|
@@ -77,18 +80,12 @@ Argument                        |Description                                    
 | FOLDER_TO_WATCH               |Folder to watch for files                                              | True          | None|
 
 
-DOCKER stuff:
-    nano Dockerfile 
-    docker build -t watcher:latest .
-    nano Dockerfile 
-    docker build -t watcher:latest .
-    docker run -ti --rm watcher:latest /bin/bash
-    sudo docker tag watcher docker-registry-default.apps.do-qas-ori-01.do.viaa.be/test/watcher:latest
-    sudo docker push docker-registry-default.apps.do-qas-ori-01.do.viaa.be/test/watcher
-    nano Dockerfile 
+## Docker stuff:
+```
     docker build -t watcher:latest .
     sudo docker tag watcher docker-registry-default.apps.do-qas-ori-01.do.viaa.be/test/watcher:latest
     sudo docker push docker-registry-default.apps.do-qas-ori-01.do.viaa.be/test/watcher
+```
 
 ## build the docker file and push to openshift docker repo
 ADD TO PROJECT from image in web console
