@@ -24,6 +24,7 @@ node src/watchfolder.js \
 	--ESSENCE_FILE_TYPE=.mxf,.txt \
 	--SIDECAR_FILE_TYPE=.xml \
 	--COLLATERAL_FILE_TYPE=.srt \
+	--IGNORE_FILE_TYPE= \
 	--RABBIT_MQ_HOST=localhost \
 	--RABBIT_MQ_PORT=5672 \
 	--RABBIT_MQ_VHOST=/ \
@@ -55,6 +56,7 @@ Argument                        |Description                                    
 | ESSENCE_FILE_TYPE             |File types that are recognized as essence, separated with a `,`        | True          | None|
 | SIDECAR_FILE_TYPE             |File types that are recognized as sidecar, separated with a `,`        | False         | None|
 | COLLATERAL_FILE_TYPE          |File types that are recognized as collateral, separated with a `,`     | False         | None|
+| IGNORE_FILE_TYPE              |File types to ignore (.part for example)                               | False         | None|
 | RABBIT_MQ_HOST                |AMQP host to connect to                                                | True          | None|
 | RABBIT_MQ_PORT                |AMQP port to connect to                                                | True          | None|
 | RABBIT_MQ_VHOST               |AMQP virtual host to connect to                                        | True          | None|
