@@ -23,6 +23,12 @@ const required_arguments = [
     "REFUSED_FOLDER_NAME",
     "FOLDER_TO_WATCH"
 ];
+const fileTypeArguments = [
+    "ESSENCE_FILE_TYPE",
+    "SIDECAR_FILE_TYPE",
+    "COLLATERAL_FILE_TYPE",
+    "IGNORE_FILE_TYPE"
+];
 
 const parseArguments = () => {
     const argv = require('minimist')(process.argv.slice(2));
@@ -39,6 +45,15 @@ const parseArguments = () => {
         argv.RABBIT_MQ_PORT,
         argv.RABBIT_MQ_VHOST);
 
+    fileTypeArguments.forEach((ft) => {
+        if (argv[ft] && argv[ft] !== undefined) {
+            argv[ft] = argv[ft].toString().replace(/ /g, '').split(',');
+        }
+        else {
+            argv[ft] = undefined;
+        }
+    });
+    /*
     // Check if essence type exists
     if (argv.ESSENCE_FILE_TYPE && argv.ESSENCE_FILE_TYPE.length != undefined) {
         argv.ESSENCE_FILE_TYPE = argv.ESSENCE_FILE_TYPE.split(',');
@@ -62,6 +77,10 @@ const parseArguments = () => {
     else {
         argv.COLLATERAL_FILE_TYPE = undefined;
     }
+    */
+
+
+
     if (!argv.RETRY_PACKAGE_INTERVAL) {
         argv.RETRY_PACKAGE_INTERVAL = 15000
     }
