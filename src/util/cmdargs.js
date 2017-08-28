@@ -46,7 +46,7 @@ const parseArguments = () => {
         argv.RABBIT_MQ_VHOST);
 
     fileTypeArguments.forEach((ft) => {
-        if (argv[ft] && argv[ft] !== undefined) {
+        if (argv[ft] && argv[ft] !== undefined && argv[ft] !== true) {
             argv[ft] = argv[ft].toString().replace(/ /g, '').split(',');
         }
         else {
