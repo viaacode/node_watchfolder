@@ -82,6 +82,35 @@ Argument                        |Description                                    
 | FOLDER_TO_WATCH               |Folder to watch for files                                              | True          | None|
 
 
+## Message format
+The service will publish a message of the following format:
+```
+{
+  "cp_name": "CPFIELD",
+  "flow_id": "FLOWFIELD",
+  "server": "someserver",
+  "username": "someusername",
+  "password": "somepassword",
+  "timestamp": "2017-09-01T16:23:30.072+02:00",
+  "sip_package": [
+    {
+      "file_name": "file.mxf",
+      "file_path": "/path/to/file",
+      "file_type": "essence",
+      "md5": "",
+      "timestamp": "2017-09-01T16:23:30.084+02:00"
+    },
+    {
+      "file_name": "file.mxf.xml",
+      "file_path": "/path/to/file",
+      "file_type": "sidecar",
+      "md5": "",
+      "timestamp": "2017-09-01T16:23:30.091+02:00"
+    }
+  ]
+}
+```
+
 ## Docker stuff:
 ```
     docker build -t watcher:latest .
