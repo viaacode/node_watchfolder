@@ -32,8 +32,9 @@ const fileTypeArguments = [
 
 const parseArguments = () => {
     const argv = require('minimist')(process.argv.slice(2));
+    console.log(argv);
     required_arguments.forEach((argument) => {
-        if (!argv[argument]) throw ('Argument ' + argument + ' was missing but is required.');
+        if (!argv[argument]) throw Error('Argument ' + argument + ' was missing but is required.');
     });
 
     // Derived arguments
@@ -44,43 +45,14 @@ const parseArguments = () => {
         argv.RABBIT_MQ_HOST,
         argv.RABBIT_MQ_PORT,
         argv.RABBIT_MQ_VHOST);
-
     fileTypeArguments.forEach((ft) => {
-        if (argv[ft] && argv[ft] !== undefined) {
+        if (argv[ft] && argv[ft] !== undefined && argv[ft] !== true) {
             argv[ft] = argv[ft].toString().replace(/ /g, '').split(',');
         }
         else {
             argv[ft] = undefined;
         }
     });
-    /*
-    // Check if essence type exists
-    if (argv.ESSENCE_FILE_TYPE && argv.ESSENCE_FILE_TYPE.length != undefined) {
-        argv.ESSENCE_FILE_TYPE = argv.ESSENCE_FILE_TYPE.split(',');
-    }
-    else {
-        argv.ESSENCE_FILE_TYPE = undefined;
-    }
-    //argv.ESSENCE_FILE_TYPE = argv.ESSENCE_FILE_TYPE.split(',');
-
-    // Check if sidecar type exists
-    if (argv.SIDECAR_FILE_TYPE && argv.SIDECAR_FILE_TYPE.length != undefined) {
-        argv.SIDECAR_FILE_TYPE = argv.SIDECAR_FILE_TYPE.split(',');
-    }
-    else {
-        argv.SIDECAR_FILE_TYPE = undefined;
-    }
-    // Check if collateral type exists
-    if (argv.COLLATERAL_FILE_TYPE && argv.COLLATERAL_FILE_TYPE.length != undefined) {
-        argv.COLLATERAL_FILE_TYPE = argv.COLLATERAL_FILE_TYPE.split(',');
-    }
-    else {
-        argv.COLLATERAL_FILE_TYPE = undefined;
-    }
-    */
-
-
-
     if (!argv.RETRY_PACKAGE_INTERVAL) {
         argv.RETRY_PACKAGE_INTERVAL = 15000
     }

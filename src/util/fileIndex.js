@@ -1,17 +1,19 @@
 const path = require("path");
-const fileutils = require("./fileUtils");
 const Promise = require("bluebird");
-const log = require("../services/logger.service");
+let log = {};
+let fileutils = {};
 
-function FileIndex (config, filerecognizer, publisher, generator) {
+function FileIndex (config, filerecognizer, publisher, generator, logger, fileUtils) {
     this.config = config;
     this.file_recognizer = filerecognizer;
     this.publisher = publisher;
     this.generator = generator;
     this.packages = {};
+    log = logger || require("../services/logger.service");
+    fileutils = fileUtils || require("./fileUtils");
     setInterval(this.check_expired_packages.bind(this), config.CHECK_PACKAGE_INTERVAL);
     setInterval(this.retry_failed_packages.bind(this), config.RETRY_PACKAGE_INTERVAL);
-};
+}
 
 FileIndex.prototype.determine_file_type = function(filepath) {
     const filename = path.basename(filepath);
@@ -65,9 +67,10 @@ FileIndex.prototype.add_file = function (filepath, file_type) {
                 this.packages[lookupKey].isComplete = true;
                 this.acceptPackage(lookupKey, this);
             }
+            resolve(this.packages[lookupKey]);
         } else {
             log.info('Refused file for package handling: ' + filename);
-            this.refuseFile(filepath);
+            this.refuseFile(filepath, reject);
         }
         resolve();
     });
@@ -102,6 +105,7 @@ FileIndex.prototype.is_package_complete = function(key) {
 };
 
 FileIndex.prototype.check_expired_packages = function() {
+    log.info('Checking packages that are expired');
     const currentTime = new Date().getTime();
     for (let key in this.packages) {
         if (!this.packages[key].isComplete && this.packages[key].lastModificationDate + (this.config.CHECK_PACKAGE_INTERVAL * this.config.CHECK_PACKAGE_AMOUNT) < currentTime) {
@@ -112,20 +116,19 @@ FileIndex.prototype.check_expired_packages = function() {
 };
 
 FileIndex.prototype.retry_failed_packages = function() {
-    const currentTime = new Date().getTime();
     for (let key in this.packages) {
         if (this.packages[key].isComplete && this.packages[key].failed) {
             log.warn('Package ' + key + ' failed. Trying to publish message again.');
             this.sendCompleteMessage(key)
-                .bind(this)
-                .then(() => this.movePackage(key, this.config.PROCESSING_FOLDER_NAME))
                 .then( () => { return this.deleteEntry(key) })
-                .catch(error => {
-                    this.packages[key].failed = true;
-                    log.error(error + ' - Keeping package in memory');
-                });
+                .catch(error => this.handle_failed_packages(error, key));
         }
     }
+};
+
+FileIndex.prototype.handle_failed_packages = function(error, key) {
+    this.packages[key].failed = true;
+    log.error(error + ' - Keeping package in memory');
 };
 
 /** Package is incomplete **/
@@ -150,7 +153,7 @@ FileIndex.prototype.acceptPackage = function(key) {
         });
 };
 
-FileIndex.prototype.refuseFile = function (path) {
+FileIndex.prototype.refuseFile = function (path, reject) {
     fileutils.moveFile(path, fileutils.createFullPath(fileutils.appendFolder(
         fileutils.getFolder(path), this.config.REFUSED_FOLDER_NAME), fileutils.getFileName(path)), (err) => {
         if (err) {

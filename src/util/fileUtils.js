@@ -1,6 +1,5 @@
 const mv = require("mv");
 const path = require("path");
-const mkdirp = require('mkdirp');
 const fs = require("fs");
 
 const getFileName = (file_path) => {
@@ -30,16 +29,12 @@ const getPermissions = (path) => {
 const createDirectory = (path, uid, gid, mode) => {
     var oldmask = process.umask(0);
     if(!fs.existsSync(path)){
-        console.log('Creating ', path, 'with uid:gid ', uid, ':', gid);
         fs.mkdirSync(path, mode, function(err){
             process.umask(oldmask);
             if(err){
-                console.log(err);
-                // echo the result back
-                response.send("ERROR! Can't make the directory! \n");
+                throw err;
             }
         });
-        console.log('Chowning ', path, ' to ' + uid + ':' + gid);
         fs.chownSync(path, uid, gid);
     }
 };
