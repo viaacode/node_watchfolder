@@ -32,7 +32,6 @@ const fileTypeArguments = [
 
 const parseArguments = () => {
     const argv = require('minimist')(process.argv.slice(2));
-    console.log(argv);
     required_arguments.forEach((argument) => {
         if (!argv[argument]) throw Error('Argument ' + argument + ' was missing but is required.');
     });
