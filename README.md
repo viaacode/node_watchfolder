@@ -1,9 +1,11 @@
 # NodeJS watchfolder
+
 Watches directories for packages and publishes messages when complete.
 
 A package can consist of as many files as you want, depending on the configuration. This service will monitor a folder for files and match these based on their name and extension.
 
-####Example:
+## Example:
+
 A complete package might be:
 - Configured with only essence
   - somefile.mxf
@@ -18,7 +20,9 @@ A complete package might be:
   - somefile.srt
 
 ## How to use
+
 This service can be started with the command line, passing all arguments:
+
 ```
 node src/watchfolder.js \
 	--CP=VRT \
@@ -51,6 +55,7 @@ node src/watchfolder.js \
 ```
 
 #### Arguments
+
 Argument                        |Description                                                            |Required       |Default
 |:---                           |:---                                                                   |:---           |:---
 | CP                            |Can be filled in freely. Will be part of the message                   | True          | None|
@@ -83,7 +88,9 @@ Argument                        |Description                                    
 
 
 ## Message format
+
 The service will publish a message of the following format:
+
 ```
 {
   "cp_name": "CPFIELD",
@@ -111,20 +118,28 @@ The service will publish a message of the following format:
 }
 ```
 
-## Docker stuff:
+## Docker stuff
+
 ```
-    docker build -t watcher:latest .
-    sudo docker tag watcher docker-registry-default.apps.do-qas-ori-01.do.viaa.be/test/watcher:latest
-    sudo docker push docker-registry-default.apps.do-qas-ori-01.do.viaa.be/test/watcher
+docker build -t watcher:latest .
+sudo docker tag watcher docker-registry-default.apps.do-qas-ori-01.do.viaa.be/test/watcher:latest
+sudo docker push docker-registry-default.apps.do-qas-ori-01.do.viaa.be/test/watcher
 ```
 
-## build the docker file and push to openshift docker repo
+### Build the docker file and push to openshift docker repo
+
 ADD TO PROJECT from image in web console
-## set the ENV in origin DeploymentConfig (dc) :
+
+### Set the ENV in origin DeploymentConfig (dc)
+
+```
 oc set env dc/watcher FTP_USERNAME=moo
-
 oc set env dc/watcher FTP_SERVER=larry.ftp
+```
 
-etc ...
+etc...
+
 -- add and edit the watcher templatefile to your need and add to origin e.g. oc create -f watcher  , add to origin project
+
 ## TODO : Storage documentation NFS
+
