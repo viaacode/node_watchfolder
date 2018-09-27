@@ -50,8 +50,22 @@ node src/watchfolder.js \
 	--PROCESSING_FOLDER_NAME=processing \
 	--INCOMPLETE_FOLDER_NAME=incomplete \
 	--REFUSED_FOLDER_NAME=refused \
-	--FOLDER_TO_WATCH=/Users/dieter/watch_this_folder
+	--FOLDER_TO_WATCH=/watch_this_folder
 
+```
+
+The specified folders for the arguments `PROCESSING_FOLDER_NAME`, `INCOMPLETE_FOLDER_NAME` and `REFUSED_FOLDER_NAME` will be created upon starting of the process if they don't already exist under `FOLDER_TO_WATCH`.
+
+Output:
+
+```
+[LOG]   Creating  /watch_this_folder/Processing with uid:gid  0 : 4006
+[LOG]   Chowning  /watch_this_folder/Processing  to 0:4006
+[LOG]   Creating  /watch_this_folder/Incomplete with uid:gid  0 : 4006
+[LOG]   Chowning  /watch_this_folder/Incomplete  to 0:4006
+[LOG]   Creating  /watch_this_folder/refused with uid:gid  0 : 4006
+[LOG]   Chowning  /watch_this_folder/refused  to 0:4006
+[INFO]  Watching folder: /watch_this_folder
 ```
 
 #### Arguments
