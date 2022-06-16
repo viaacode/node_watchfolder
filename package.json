@@ -1,6 +1,6 @@
 {
   "name": "nodejs-watchfolder",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Watches directories for packages and publishes messages when complete.",
   "main": "src/watchfolder.js",
   "directories": {
@@ -14,7 +14,7 @@
     "start": "NODE_ENV=production node build/watchfolder.js",
     "lint": "eslint src"
   },
-  "author": "VIAA",
+  "author": "meemoo",
   "license": "MIT",
   "devDependencies": {
     "eslint": "^8.17.0",
