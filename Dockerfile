@@ -1,4 +1,4 @@
-FROM node
+FROM node:16
 ENV NPM_CONFIG_LOGLEVEL warn
 # Create app directory
 RUN mkdir -p /usr/src/app
@@ -45,7 +45,9 @@ ENV REFUSED_FOLDER_NAME=refused
 ENV FOLDER_TO_WATCH=/export/home/viaa/incoming/temp
 
 
-RUN mkdir -p /home/ftphaven && \
+RUN mkdir -p /home/ftphaven/watchfolder/processing && \
+    mkdir -p /home/ftphaven/watchfolder/incomplete && \
+    mkdir -p /home/ftphaven/watchfolder/refused && \
     echo "ftphaven:x:1002:1002:ftphaven,,,:/home/ftphaven:/bin/bash" >> /etc/passwd && \
     echo "ftphaven:x:1001:" >> /etc/group && \
     echo "ftphaven ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/ftphaven && \
