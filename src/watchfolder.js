@@ -32,7 +32,10 @@ chokidar.watch(
         },
         usePolling: false,
         alwaysStat: false,
-        awaitWriteFinish: true
+        awaitWriteFinish: {
+            stabilityThreshold: 10000,
+            pollInterval: 100
+        },
     })
     .on('add', (path) => {
         fileindex.add_file(path, fileindex.determine_file_type(path, options), options, publisher, generator);
